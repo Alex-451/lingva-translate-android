@@ -1,15 +1,15 @@
 package com.alex.lingvatranslate.ui
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.height
-import androidx.compose.material.Button
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import android.icu.text.CaseMap.Title
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -22,7 +22,44 @@ fun TranslateScreen(
 ) {
     val translateUiState by translateViewModel.uiState.collectAsState()
 
-    TranslationBox(isMain = true, onTextChanged = {translateViewModel.updateTextToTranslate(it)}, text = translateViewModel.textToTranslate, onButtonClick = {translateViewModel.translateText()}, result = translateUiState.translation)
+    MaterialTheme{
+        Scaffold(
+            topBar = {
+                TopAppBar {
+                    Text(text = "Bababoey")
+                }
+            }
+        ) { padding ->
+            Column(
+                modifier = Modifier
+                    .padding(20.dp)
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.SpaceEvenly
+            ) {
+
+
+                Box(modifier = Modifier.weight(1f))
+                {
+                    TranslationBox(
+                        isMain = true,
+                        onTextChanged = { translateViewModel.updateTextToTranslate(it) },
+                        text = translateViewModel.textToTranslate
+                    )
+                }
+
+                Box(modifier = Modifier.weight(1f))
+                {
+                    TranslationBox(isMain = false, onTextChanged = {}, text = translateUiState.translation)
+                }
+
+
+
+                Button(onClick = { translateViewModel.translateText() }) {
+                    Text(text = "Translate")
+                }
+            }
+        }
+    }
 }
 
 @Composable
@@ -30,14 +67,12 @@ fun TranslationBox(
     isMain: Boolean = false,
     text: String,
     onTextChanged: (String) -> Unit,
-    onButtonClick: () -> Unit,
-    result: String
 ) {
-    Column() {
-        OutlinedTextField(value = text, onValueChange = onTextChanged)
-        Button(onClick = onButtonClick) {
-            Text(text = "Translate")
-        }
-        Text(text = result)
-    }
+    OutlinedTextField(
+        value = text, onValueChange = onTextChanged,
+        Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .padding(0.dp, 10.dp)
+    )
 }

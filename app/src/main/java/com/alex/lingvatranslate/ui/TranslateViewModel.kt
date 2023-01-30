@@ -43,7 +43,7 @@ class TranslateViewModel(private val translationRepository: TranslationRepositor
                         translation = translationRepository.getTranslation(
                             "de",
                             "ru",
-                            "Wie geht es dir?"
+                            textToTranslate
                         ).translation
                     )
                 }
