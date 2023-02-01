@@ -22,7 +22,7 @@ fun TranslateScreen(
 ) {
     val translateUiState by translateViewModel.uiState.collectAsState()
 
-    MaterialTheme{
+    MaterialTheme {
         Scaffold(
             topBar = {
                 TopAppBar {
@@ -37,6 +37,14 @@ fun TranslateScreen(
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
 
+                DropdownMenu(expanded = false, onDismissRequest = { /*TODO*/ }) {
+                    translateUiState.languages.forEachIndexed { index, language ->
+                        DropdownMenuItem(
+                            onClick = { /*TODO*/ }) {
+                            Text(text = language.name)
+                        }
+                    }
+                }
 
                 Box(modifier = Modifier.weight(1f))
                 {
@@ -49,10 +57,12 @@ fun TranslateScreen(
 
                 Box(modifier = Modifier.weight(1f))
                 {
-                    TranslationBox(isMain = false, onTextChanged = {}, text = translateUiState.translation)
+                    TranslationBox(
+                        isMain = false,
+                        onTextChanged = {},
+                        text = translateUiState.translation
+                    )
                 }
-
-
 
                 Button(onClick = { translateViewModel.translateText() }) {
                     Text(text = "Translate")

@@ -1,6 +1,5 @@
 package com.alex.lingvatranslate.ui
 
-import android.R
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -13,7 +12,6 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.alex.lingvatranslate.LingvaTranslateApplication
 import com.alex.lingvatranslate.data.TranslationRepository
-import com.alex.lingvatranslate.model.Translation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -29,6 +27,29 @@ class TranslateViewModel(private val translationRepository: TranslationRepositor
 
     var textToTranslate by mutableStateOf("")
         private set
+
+    init {
+        getLanguages()
+    }
+
+    fun getLanguages() {
+        viewModelScope.launch {
+            try {
+                _uiState.update { currenState ->
+                    currenState.copy(
+                        languages = translationRepository.getLanguages()
+                    )
+                }
+
+                uiState.value.languages.forEach() {
+                    Log.println(Log.DEBUG, null, it.name)
+                }
+
+            } catch (ex: Exception) {
+                Log.println(Log.ERROR, null, ex.message.toString())
+            }
+        }
+    }
 
     fun updateTextToTranslate(text: String) {
         textToTranslate = text
