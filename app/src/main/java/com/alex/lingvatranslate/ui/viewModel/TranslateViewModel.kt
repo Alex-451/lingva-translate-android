@@ -1,4 +1,4 @@
-package com.alex.lingvatranslate.ui
+package com.alex.lingvatranslate.ui.viewModel
 
 import android.util.Log
 import androidx.compose.runtime.getValue
@@ -12,6 +12,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.alex.lingvatranslate.LingvaTranslateApplication
 import com.alex.lingvatranslate.data.TranslationRepository
+import com.alex.lingvatranslate.ui.TranslateUiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -32,7 +33,7 @@ class TranslateViewModel(private val translationRepository: TranslationRepositor
         getLanguages()
     }
 
-    fun getLanguages() {
+    private fun getLanguages() {
         viewModelScope.launch {
             try {
                 _uiState.update { currenState ->
@@ -84,3 +85,4 @@ class TranslateViewModel(private val translationRepository: TranslationRepositor
         }
     }
 }
+
