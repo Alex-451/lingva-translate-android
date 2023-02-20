@@ -62,7 +62,7 @@ fun TranslateView(
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     Box(modifier = Modifier.weight(1f)) {
-                        LanguageDropDown(viewState.languages, true)
+                        LanguageDropDown(languages = viewState.languages, isSource = true, onSelectionChanged = {viewModel.updateSelectedSourceLanguage(it)})
                     }
 
                     Spacer(
@@ -71,7 +71,7 @@ fun TranslateView(
                     )
 
                     Box(modifier = Modifier.weight(1f)) {
-                        LanguageDropDown(viewState.languages)
+                        LanguageDropDown(languages = viewState.languages, isSource = false, onSelectionChanged = {viewModel.updateSelectedTargetLanguage(it)})
                     }
                 }
 
@@ -79,17 +79,21 @@ fun TranslateView(
                 {
                     TranslationBox(
                         isSource = true,
-                        onTextChanged = {  },
-                        text = ""
+                        onTextToTranslateChanged = {  viewModel.updateTextToTranslate(it)},
+                        textToTranslate = viewState.textToTranslate
                     )
+                }
+                
+                Button(onClick = { viewModel.translateText() }) {
+                    Text(text = "Translate")
                 }
 
                 Box(modifier = Modifier.weight(1f))
                 {
                     TranslationBox(
                         isSource = false,
-                        onTextChanged = {},
-                        text = ""
+                        onTextToTranslateChanged = {},
+                        textToTranslate = viewState.translationResult.translation
                     )
                 }
             }
@@ -99,8 +103,8 @@ fun TranslateView(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LanguageDropDown(languages: List<Language>, isSource: Boolean = false) {
-    var filteredLangs: List<Language> = emptyList()
+fun LanguageDropDown(languages: List<Language>, isSource: Boolean = false, onSelectionChanged: (Language) -> Unit) {
+    var filteredLangs: List<Language>
 
     if (!isSource)
         filteredLangs = languages.filter { it.name != "Detect" }
@@ -143,6 +147,7 @@ fun LanguageDropDown(languages: List<Language>, isSource: Boolean = false) {
                     onClick = {
                         selectedLanguage = selectionOption
                         isExpanded = false
+                        onSelectionChanged(selectedLanguage)
                     },
                 )
             }
@@ -154,11 +159,11 @@ fun LanguageDropDown(languages: List<Language>, isSource: Boolean = false) {
 @Composable
 fun TranslationBox(
     isSource: Boolean = false,
-    text: String,
-    onTextChanged: (String) -> Unit,
+    textToTranslate: String,
+    onTextToTranslateChanged: (String) -> Unit,
 ) {
     OutlinedTextField(
-        value = text, onValueChange = onTextChanged,
+        value = textToTranslate, onValueChange = onTextToTranslateChanged,
         Modifier
             .fillMaxWidth()
             .fillMaxHeight()

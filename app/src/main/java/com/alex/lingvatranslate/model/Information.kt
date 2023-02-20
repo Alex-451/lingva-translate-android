@@ -6,7 +6,7 @@ import java.util.*
 
 @Serializable
 data class Information(
-    val typo: String,
+    val typo: String = "",
     val pronunciation: Map<String, String>,
     val definitions: Array<String>,
     val examples: Array<String>,
