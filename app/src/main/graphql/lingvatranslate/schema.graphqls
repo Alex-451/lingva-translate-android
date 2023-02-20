@@ -1,0 +1,60 @@
+enum LangType {
+        SOURCE,
+        TARGET
+    }
+    type Query {
+        translation(source: String="auto" target: String="en" query: String!): Translation!
+        audio(lang: String! query: String!): AudioEntry!
+        languages(type: LangType): [Language]!
+    }
+    type Translation {
+        source: SourceEntry!
+        target: TargetEntry!
+    }
+    type SourceEntry {
+        lang: Language!
+        text: String!
+        audio: [Int]!
+        detected: Language
+        typo: String
+        pronunciation: String
+        definitions: [DefinitionsGroup]
+        examples: [String]
+        similar: [String]
+    }
+    type TargetEntry {
+        lang: Language!
+        text: String!
+        audio: [Int]!
+        pronunciation: String
+        extraTranslations: [ExtraTranslationsGroup]
+    }
+    type AudioEntry {
+        lang: Language!
+        text: String!
+        audio: [Int]!
+    }
+    type Language {
+        code: String!
+        name: String!
+    }
+    type DefinitionsGroup {
+        type: String!
+        list: [DefinitionList]!
+    }
+    type DefinitionList {
+        definition: String!
+        example: String!
+        field: String
+        synonyms: [String]
+    }
+    type ExtraTranslationsGroup {
+        type: String!
+        list: [ExtraTranslationList]!
+    }
+    type ExtraTranslationList {
+        word: String!
+        article: String
+        frequency: Int!
+        meanings: [String]
+    }

@@ -14,7 +14,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.alex.lingvatranslate.model.Language
+import com.alex.lingvatranslate.domain.models.Language
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

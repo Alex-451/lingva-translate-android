@@ -4,6 +4,7 @@ plugins {
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.7.10'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'com.apollographql.apollo3' version "$apollo_version"
 }
 android {
     namespace 'com.alex.lingvatranslate'
@@ -76,4 +77,14 @@ dependencies {
     // Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+
+    // Apollo
+    implementation "com.apollographql.apollo3:apollo-runtime:$apollo_version"
+}
+
+apollo {
+    service("lingva"){
+        sourceFolder = "lingvatranslate"
+        packageName = "com.alex.lingvatranslate"
+    }
 }

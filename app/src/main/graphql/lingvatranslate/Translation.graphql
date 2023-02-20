@@ -1,0 +1,7 @@
+query Translate($source_language: String! $target_language: String! $query: String!) {
+    translation(source: $source_language, target: $target_language, query: $query) {
+        target {
+            text
+        }
+    }
+}
