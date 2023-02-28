@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Star
-import androidx.compose.material.icons.rounded.SwapHoriz
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -20,8 +19,7 @@ import com.alex.lingvatranslate.domain.models.Language
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TranslateView(
-    viewModel: TranslateViewModel = viewModel(),
-    openLanguageSelectionView: () -> Unit
+    viewModel: TranslateViewModel = viewModel()
 ) {
     val viewState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -67,13 +65,10 @@ fun TranslateView(
                         LanguageDropDown(languages = viewState.languages, isSource = true, onSelectionChanged = {viewModel.updateSelectedSourceLanguage(it)})
                     }
 
-
-
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(Icons.Rounded.SwapHoriz, contentDescription = null)
-                    }
-
-
+                    Spacer(
+                        Modifier
+                            .padding(5.dp)
+                    )
 
                     Box(modifier = Modifier.weight(1f)) {
                         LanguageDropDown(languages = viewState.languages, isSource = false, onSelectionChanged = {viewModel.updateSelectedTargetLanguage(it)})
@@ -88,18 +83,10 @@ fun TranslateView(
                         textToTranslate = viewState.textToTranslate
                     )
                 }
-
-                Row() {
-
-                    Button(onClick = { viewModel.translateText() }) {
-                        Text(text = "Translate")
-                    }
-
-                    Button(onClick = { openLanguageSelectionView() }) {
-                        Text(text = "Test")
-                    }
+                
+                Button(onClick = { viewModel.translateText() }) {
+                    Text(text = "Translate")
                 }
-
 
                 Box(modifier = Modifier.weight(1f))
                 {
@@ -146,6 +133,7 @@ fun LanguageDropDown(languages: List<Language>, isSource: Boolean = false, onSel
                 ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded)
             },
             modifier = Modifier.menuAnchor()
+
         )
         ExposedDropdownMenu(
             expanded = isExpanded,

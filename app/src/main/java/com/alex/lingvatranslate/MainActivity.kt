@@ -4,11 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.navigation.compose.rememberNavController
 import com.alex.lingvatranslate.ui.theme.LingvaTranslateTheme
 import com.alex.lingvatranslate.ui.translate.TranslateView
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,16 +18,11 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             LingvaTranslateTheme {
-                
-                val navController = rememberNavController()
-                
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    //TranslateView()
-                    LingvaTranslateNavHost(navController = navController)
+                    TranslateView()
                 }
             }
         }
     }
 }
-
